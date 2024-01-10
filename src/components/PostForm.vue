@@ -13,7 +13,7 @@
     />
     <my-buttons
       style="align-self: flex-end; margin-top: 15px"
-      @click="createPost"
+      @click.prevent="createPost"
     >
       Создать
     </my-buttons>
