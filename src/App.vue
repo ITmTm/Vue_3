@@ -1,12 +1,19 @@
 <template>
   <div class="app">
     <h1>Страница с постами</h1>
-    <my-buttons
-      @click="showDialog"
-      style="margin: 15px 0;"
-    >
-      Создать пост
-    </my-buttons>
+    <div class="app_btns">
+      <my-buttons
+        @click="showDialog"
+      >
+        Создать пост
+      </my-buttons>
+      <my-select
+        v-model="selectedSort"
+        :options="sortOptions"
+      />
+
+    </div>
+
     <my-dialog v-model:show="dialogVisible">
       <post-form
         @create="createPost"
@@ -14,7 +21,7 @@
     </my-dialog>
 
     <post-list
-      :posts="posts"
+      :posts="sortedPost"
       @remove="removePost"
       v-if="!isPostsLoading"
     />
@@ -35,8 +42,10 @@ import PostList from "@/components/PostList.vue";
 import MyButtons from "@/components/UI/MyButtons.vue";
 import MyDialog from "@/components/UI/MyDialog.vue";
 import axios from "axios";
+import MySelect from "@/components/UI/MySelect.vue";
 export default {
   components: {
+    MySelect,
     MyButtons,
     MyDialog,
     PostList, PostForm
@@ -46,6 +55,11 @@ export default {
       posts: [],
       dialogVisible: false,
       isPostsLoading: false,
+      selectedSort: '',
+      sortOptions: [
+        {value: 'title', name: 'По названию'},
+        {value: 'body', name: 'По содержимому'},
+      ]
     }
   },
   methods: {
@@ -65,7 +79,7 @@ export default {
         const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
         this.posts = response.data;
       } catch (e) {
-        alert('Ошибка')
+        alert(`Ошибка в запросе: ${e}`)
       } finally {
         this.isPostsLoading = false;
       }
@@ -73,6 +87,14 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+  },
+  computed: {
+    sortedPost() {
+      return[...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+    }
+  },
+  watch: {
+
   }
 }
 </script>
@@ -87,5 +109,12 @@ export default {
 .app {
   padding: 20px;
 }
+
+.app_btns {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
 
 </style>
