@@ -16,7 +16,16 @@
     <post-list
       :posts="posts"
       @remove="removePost"
+      v-if="!isPostsLoading"
     />
+    <div v-else>
+      <img
+        class="spinner"
+        src="https://i.pinimg.com/originals/91/91/85/919185a188c5cc25655fadfbc9a4a2b4.gif"
+        alt="loading"
+        style="display: block; margin: 0 auto; width: 350px"
+      >
+    </div>
   </div>
 </template>
 
@@ -36,7 +45,7 @@ export default {
     return {
       posts: [],
       dialogVisible: false,
-      modificatorValue: ''
+      isPostsLoading: false,
     }
   },
   methods: {
@@ -51,14 +60,19 @@ export default {
       this.dialogVisible = true;
     },
     async fetchPosts() {
+      this.isPostsLoading = true;
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
         this.posts = response.data;
-        console.log(response)
       } catch (e) {
         alert('Ошибка')
+      } finally {
+        this.isPostsLoading = false;
       }
     }
+  },
+  mounted() {
+    this.fetchPosts();
   }
 }
 </script>
@@ -73,4 +87,5 @@ export default {
 .app {
   padding: 20px;
 }
+
 </style>
