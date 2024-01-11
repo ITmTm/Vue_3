@@ -45,6 +45,7 @@
         :class="{
           'current-page': page === pageNumber
         }"
+        @click="changePage(pageNumber)"
       >
         {{ pageNumber }}
       </div>
@@ -95,6 +96,11 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
+    changePage(pageNumber) {
+      this.page = pageNumber;
+      this.fetchPosts();
+    },
+
     async fetchPosts() {
       this.isPostsLoading = true;
       try {
@@ -150,6 +156,7 @@ export default {
 .page {
   border: 1px solid black;
   padding: 10px;
+  cursor: pointer;
   &__wrapper {
     display: flex;
     column-gap: 2px;
