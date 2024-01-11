@@ -37,6 +37,18 @@
         style="display: block; margin: 0 auto; width: 350px"
       >
     </div>
+    <div class="page__wrapper">
+      <div
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
+        class="page"
+        :class="{
+          'current-page': page === pageNumber
+        }"
+      >
+        {{ pageNumber }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,6 +75,9 @@ export default {
       isPostsLoading: false,
       selectedSort: '',
       searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0,
       sortOptions: [
         {value: 'title', name: 'По названию'},
         {value: 'body', name: 'По содержимому'},
@@ -83,7 +98,13 @@ export default {
     async fetchPosts() {
       this.isPostsLoading = true;
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
+          params: {
+            _page: this.page,
+            _limit: this.limit
+          }
+        });
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit)
         this.posts = response.data;
       } catch (e) {
         alert(`Ошибка в запросе: ${e}`)
@@ -109,7 +130,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 * {
   margin: 0;
   padding: 0;
@@ -126,5 +147,17 @@ export default {
   justify-content: space-between;
 }
 
+.page {
+  border: 1px solid black;
+  padding: 10px;
+  &__wrapper {
+    display: flex;
+    column-gap: 2px;
+    margin-top: 15px;
+  }
+}
 
+.current-page {
+  border: 2px solid #60dc14;
+}
 </style>
