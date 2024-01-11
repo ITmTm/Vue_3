@@ -100,7 +100,7 @@ export default {
       return[...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
     },
     sortedAndSearchPosts() {
-      return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
+      return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
     }
   },
   watch: {
