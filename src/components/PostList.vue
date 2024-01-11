@@ -46,4 +46,8 @@ export default {
   opacity: 0;
   transform: translateX(130px);
 }
+
+.user-list-move {
+  transition: transform .4s ease;
+}
 </style>
