@@ -59,7 +59,6 @@
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import MyButtons from "@/components/UI/MyButtons.vue";
-import MyDialog from "@/components/UI/MyDialog.vue";
 import axios from "axios";
 import MySelect from "@/components/UI/MySelect.vue";
 import MyInput from "@/components/UI/MyInput.vue";
@@ -68,7 +67,6 @@ export default {
     MyInput,
     MySelect,
     MyButtons,
-    MyDialog,
     PostList, PostForm
   },
   data() {
