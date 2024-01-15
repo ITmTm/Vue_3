@@ -192,7 +192,7 @@ export default {
 }
 
 .observer {
-  height: 30px;
+  height: 5px;
   background: green;
 }
 </style>
