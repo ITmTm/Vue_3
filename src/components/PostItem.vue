@@ -7,6 +7,12 @@
     </div>
     <div class="post__btns">
       <my-buttons
+        @click="$router.push(`/posts/${post.id}`)"
+      >
+        Открыть
+      </my-buttons>
+
+      <my-buttons
         @click="$emit('remove', post)"
       >
         Удалить
@@ -26,7 +32,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .post {
   padding: 15px;
   margin-top: 15px;
@@ -34,5 +40,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  &__btns {
+    display: flex;
+  }
 }
 </style>
